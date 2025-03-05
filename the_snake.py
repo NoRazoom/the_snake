@@ -1,13 +1,18 @@
 from random import choice, randint
 
 import pygame
-import sys
 
 # Константы для размеров поля и сетки:
 SCREEN_WIDTH, SCREEN_HEIGHT = 640, 480
 GRID_SIZE = 20
 GRID_WIDTH = SCREEN_WIDTH // GRID_SIZE
 GRID_HEIGHT = SCREEN_HEIGHT // GRID_SIZE
+
+# Список всех ячеек:
+SEQUENCE = [
+    (x * GRID_SIZE, y * GRID_SIZE)
+    for x in range(GRID_WIDTH) for y in range(GRID_HEIGHT)
+]
 
 # Направления движения:
 UP = (0, -1)
@@ -41,8 +46,72 @@ clock = pygame.time.Clock()
 
 
 # Тут опишите все классы игры.
-...
+class GameObject():
 
+    def __init__(self):
+        self.position = (GRID_WIDTH//2, GRID_HEIGHT//2)
+        self.body_color = (0,0,0)
+
+    def draw():
+        pass
+
+class Apple(GameObject):
+
+    def __init__(self):
+        super().__init__(self.position, self.body_color)
+        self.body_color = APPLE_COLOR
+
+    def randomize_position(self):
+        self.position = choice(SEQUENCE)
+
+    def draw(self):
+        rect = pygame.Rect(self.position, (GRID_SIZE, GRID_SIZE))
+        pygame.draw.rect(screen, self.body_color, rect)
+        pygame.draw.rect(screen, BORDER_COLOR, rect, 1)
+
+class Snake(GameObject):
+
+    def __init__(self):
+        super().__init__(self.position, self.body_color)
+        self.body_color = SNAKE_COLOR
+        self.length = 1
+        self.direction = RIGHT
+        self.next_direction = None
+        self.positions = [(self.position)]
+
+    def update_direction(self):
+        if self.next_direction:
+            self.direction = self.next_direction
+            self.next_direction = None
+
+    def move(self):
+        head = get_head_position()
+
+        """if self.direction == RIGHT and head[0]<:
+            cell = (head[0]+GRID_SIZE, head[1])
+        elif self.direction == LEFT:
+            cell = (head[0]-GRID_SIZE, head[1])
+        elif self.direction == UP:
+            cell = (head[0], head[1]+GRID_SIZE)
+        elif self.direction == DOWN:
+            cell = (head[0], head[1]-GRID_SIZE)"""
+
+        if len(self.positions)..:
+            self.positions = self.positions[:-1].reverse().append(cell).reverse()
+        else:
+            self.positions = self.positions.reverse().append(cell).reverse()
+    
+    def draw(self):
+        for position in self.positions[:-1]:
+            rect = (pygame.Rect(position, (GRID_SIZE, GRID_SIZE)))
+            pygame.draw.rect(screen, self.body_color, rect)
+            pygame.draw.rect(screen, BORDER_COLOR, rect, 1)
+
+    def get_head_position(self):
+        return self.positions[0]
+
+    def reset(self):
+        Snake.__init__(self)
 
 def main():
     # Инициализация PyGame:
@@ -61,18 +130,7 @@ if __name__ == '__main__':
     main()
 
 
-# Метод draw класса Apple
-# def draw(self):
-#     rect = pygame.Rect(self.position, (GRID_SIZE, GRID_SIZE))
-#     pygame.draw.rect(screen, self.body_color, rect)
-#     pygame.draw.rect(screen, BORDER_COLOR, rect, 1)
 
-# # Метод draw класса Snake
-# def draw(self):
-#     for position in self.positions[:-1]:
-#         rect = (pygame.Rect(position, (GRID_SIZE, GRID_SIZE)))
-#         pygame.draw.rect(screen, self.body_color, rect)
-#         pygame.draw.rect(screen, BORDER_COLOR, rect, 1)
 
 #     # Отрисовка головы змейки
 #     head_rect = pygame.Rect(self.positions[0], (GRID_SIZE, GRID_SIZE))
@@ -99,9 +157,3 @@ if __name__ == '__main__':
 #                 game_object.next_direction = LEFT
 #             elif event.key == pygame.K_RIGHT and game_object.direction != LEFT:
 #                 game_object.next_direction = RIGHT
-
-# Метод обновления направления после нажатия на кнопку
-# def update_direction(self):
-#     if self.next_direction:
-#         self.direction = self.next_direction
-#         self.next_direction = None
