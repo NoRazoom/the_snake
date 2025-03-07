@@ -191,8 +191,7 @@ def handle_keys(game_object):
 
 def main():
     """Основная логика игры."""
-    speed = int(input('Введите желаемую скорость игры:'))
-
+    
     pygame.init()
 
     snake = Snake()
@@ -201,7 +200,7 @@ def main():
 
     while True:
 
-        clock.tick(speed)
+        clock.tick(SPEED)
 
         handle_keys(snake)
         screen.fill(BOARD_BACKGROUND_COLOR)
