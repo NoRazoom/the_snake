@@ -191,7 +191,6 @@ def handle_keys(game_object):
 
 def main():
     """Основная логика игры."""
-    
     pygame.init()
 
     snake = Snake()
