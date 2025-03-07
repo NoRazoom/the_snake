@@ -2,6 +2,8 @@ from random import choice
 
 import pygame
 
+# ПРОВЕРЯЮЩЕМУ. В коммитах вы можете увидеть вариант без фичей
+
 # Константы для размеров поля и сетки
 SCREEN_WIDTH, SCREEN_HEIGHT = 640, 480
 GRID_SIZE = 20
@@ -40,7 +42,7 @@ SPEED = 5
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), 0, 32)
 
 # Заголовок окна игрового поля
-pygame.display.set_caption("Змейка")
+pygame.display.set_caption('Змейка')
 
 # Настройка времени
 clock = pygame.time.Clock()
@@ -50,12 +52,12 @@ class GameObject:
     """Основной (родительский) класс игрового объекта."""
 
     def __init__(self):
-        """Инициализация"""
+        """Инициализация."""
         self.position = (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
         self.body_color = (0, 0, 0)
 
-    def draw():
-        """Метод отрисовки"""
+    def draw(self):
+        """Метод отрисовки."""
         pass
 
 
@@ -63,16 +65,16 @@ class Apple(GameObject):
     """Дочерний класс Яблока."""
 
     def __init__(self):
-        """Инициализация"""
+        """Инициализация."""
         super().__init__()
         self.body_color = APPLE_COLOR
 
     def randomize_position(self):
-        """Метод, задающий Яблоку случайную позицию"""
+        """Метод, задающий Яблоку случайную позицию."""
         self.position = choice(SEQUENCE)
 
     def draw(self):
-        """Метод отрисовки яблока"""
+        """Метод отрисовки яблока."""
         rect = pygame.Rect(self.position, (GRID_SIZE, GRID_SIZE))
         pygame.draw.rect(screen, self.body_color, rect)
         pygame.draw.rect(screen, BORDER_COLOR, rect, 1)
@@ -82,7 +84,7 @@ class Trash(GameObject):
     """Дочерний класс Мусора."""
 
     def __init__(self):
-        """Инициализация"""
+        """Инициализация."""
         super().__init__()
         self.body_color = (198, 195, 181)
         self.position = (620, 460)
@@ -92,7 +94,7 @@ class Trash(GameObject):
         self.position = choice(SEQUENCE)
 
     def draw(self):
-        """Метод отрисовки Мусора"""
+        """Метод отрисовки Мусора."""
         rect = pygame.Rect(self.position, (GRID_SIZE, GRID_SIZE))
         pygame.draw.rect(screen, self.body_color, rect)
         pygame.draw.rect(screen, BORDER_COLOR, rect, 1)
@@ -102,8 +104,7 @@ class Snake(GameObject):
     """Дочерний класс Змейки."""
 
     def __init__(self):
-        """Инициализация"""
-
+        """Инициализация."""
         super().__init__()
         self.position = (0, 0)
         self.body_color = SNAKE_COLOR
@@ -115,15 +116,13 @@ class Snake(GameObject):
         self.last = None
 
     def update_direction(self):
-        """Метод обновления движения"""
-
+        """Метод обновления движения."""
         if self.next_direction:
             self.direction = self.next_direction
             self.next_direction = None
 
     def move(self):
-        """Метод движения"""
-
+        """Метод движения."""
         head = self.get_head_position()
 
         if head[0] == 0 and self.direction == LEFT:
@@ -135,7 +134,10 @@ class Snake(GameObject):
         elif head[1] == (SCREEN_HEIGHT - GRID_SIZE) and self.direction == DOWN:
             cell = (head[0], 0)
         else:
-            cell = (head[0] + self.direction[0] * 20, head[1] + self.direction[1] * 20)
+            cell = (
+                head[0] + self.direction[0] * 20,
+                head[1] + self.direction[1] * 20,
+            )
 
         self.positions.insert(0, cell)
 
@@ -145,7 +147,7 @@ class Snake(GameObject):
             self.last = None
 
     def draw(self):
-        """Метод отрисовки змейки"""
+        """Метод отрисовки змейки."""
         for position in self.positions:
             rect = pygame.Rect(position[0], position[1], GRID_SIZE, GRID_SIZE)
             pygame.draw.rect(screen, self.body_color, rect)
@@ -156,11 +158,11 @@ class Snake(GameObject):
             pygame.draw.rect(screen, BOARD_BACKGROUND_COLOR, last_rect)
 
     def get_head_position(self):
-        """Метод, возвращающий координаты головы"""
+        """Метод, возвращающий координаты головы."""
         return self.positions[0]
 
     def reset(self):
-        """Метод, сбрасывающий все атрибуты"""
+        """Метод, сбрасывающий все атрибуты."""
         self.position = (0, 0)
         self.length = 1
         self.direction = RIGHT
@@ -171,7 +173,7 @@ class Snake(GameObject):
 
 
 def handle_keys(game_object):
-    """Функция на обработку входных данных(клавиш)"""
+    """Функция на обработку входных данных(клавиш)."""
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
@@ -188,9 +190,8 @@ def handle_keys(game_object):
 
 
 def main():
-    """Основная логика игры"""
-
-    SPEED = int(input("Введите желаемую скорость игры:"))
+    """Основная логика игры."""
+    speed = int(input('Введите желаемую скорость игры:'))
 
     pygame.init()
 
@@ -200,7 +201,7 @@ def main():
 
     while True:
 
-        clock.tick(SPEED)
+        clock.tick(speed)
 
         handle_keys(snake)
         screen.fill(BOARD_BACKGROUND_COLOR)
@@ -240,6 +241,6 @@ def main():
             apple.randomize_position()
 
 
-if __name__ == "__main__":
-    """Запуск игры"""
+if __name__ == '__main__':
+    """Запуск игры."""
     main()
