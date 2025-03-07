@@ -78,6 +78,26 @@ class Apple(GameObject):
         pygame.draw.rect(screen, BORDER_COLOR, rect, 1)
 
 
+class Trash(GameObject):
+    """Дочерний класс Мусора."""
+
+    def __init__(self):
+        """Инициализация"""
+        super().__init__()
+        self.body_color = (198, 195, 181)
+        self.position = (620, 460)
+
+    def randomise_position(self):
+        """Метод, задающий Мусору случайную позицию."""
+        self.position = choice(SEQUENCE)
+
+    def draw(self):
+        """Метод отрисовки Мусора"""
+        rect = pygame.Rect(self.position, (GRID_SIZE, GRID_SIZE))
+        pygame.draw.rect(screen, self.body_color, rect)
+        pygame.draw.rect(screen, BORDER_COLOR, rect, 1)
+
+
 class Snake(GameObject):
     """Дочерний класс Змейки."""
 
@@ -170,10 +190,13 @@ def handle_keys(game_object):
 def main():
     """Основная логика игры"""
 
+    SPEED = int(input("Введите желаемую скорость игры:"))
+
     pygame.init()
 
     snake = Snake()
     apple = Apple()
+    trash = Trash()
 
     while True:
 
@@ -192,8 +215,24 @@ def main():
             while apple.position in snake.positions:
                 apple.randomize_position()
 
+        if snake.get_head_position() == trash.position:
+
+            snake.length -= 1
+            trash.randomise_position()
+            snake.positions = snake.positions[:-1]
+
+            while (trash.position in snake.positions) or (
+                apple.position == trash.position
+            ):
+                trash.randomize_position()
+
+        if snake.length < 1:
+            snake.reset()
+            apple.randomize_position()
+
         snake.draw()
         apple.draw()
+        trash.draw()
         pygame.display.update()
 
         if len(snake.positions) != len(set(snake.positions)):
