@@ -138,7 +138,7 @@ class Snake(GameObject):
         head_x, head_y = self.get_head_position()
 
         cell = (head_x + self.direction[0] * 20,
-                head_y + self.direction[1] * 20,)
+                head_y + self.direction[1] * 20)
 
         if head_x > SCREEN_WIDTH - GRID_SIZE:
             cell = (0, cell[1])
