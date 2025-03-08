@@ -72,7 +72,7 @@ class GameObject:
 class Apple(GameObject):
     """Дочерний класс Яблока."""
 
-    def __init__(self, snake_position):
+    def __init__(self, snake_position=first_snake_position):
         """Инициализация."""
         super().__init__()
         self.body_color = APPLE_COLOR
@@ -93,7 +93,7 @@ class Apple(GameObject):
 class Trash(GameObject):
     """Дочерний класс Мусора."""
 
-    def __init__(self, snake_position):
+    def __init__(self, snake_position=first_snake_position):
         """Инициализация."""
         super().__init__()
         self.body_color = (TRASH_COLOR)
