@@ -42,10 +42,10 @@ TRASH_COLOR = (198, 195, 181)
 SPEED = 20
 
 # Первая позиция мусора
-first_trash_position = (360,220)
+first_trash_position = (360, 220)
 
 # Начальная позиция змеи
-first_snake_position = (0,0)
+first_snake_position = (0, 0)
 
 # Настройка игрового окна
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), 0, 32)
@@ -135,12 +135,10 @@ class Snake(GameObject):
 
     def move(self):
         """Метод движения."""
-        head_x, head_y  = self.get_head_position()
+        head_x, head_y = self.get_head_position()
 
-        cell = (
-                head_x + self.direction[0] * 20,
-                head_y + self.direction[1] * 20,
-            )
+        cell = (head_x + self.direction[0] * 20,
+                head_y + self.direction[1] * 20,)
 
         if head_x > SCREEN_WIDTH - GRID_SIZE:
             cell = (0, cell[1])
@@ -149,7 +147,7 @@ class Snake(GameObject):
         elif head_y > SCREEN_HEIGHT - GRID_SIZE:
             cell = (cell[0], 0)
         elif head_y < 0:
-            cell =  (cell[0], SCREEN_HEIGHT - GRID_SIZE)
+            cell = (cell[0], SCREEN_HEIGHT - GRID_SIZE)
 
         self.positions.insert(0, cell)
 
@@ -166,7 +164,8 @@ class Snake(GameObject):
             pygame.draw.rect(screen, self.body_color, rect)
             pygame.draw.rect(screen, BORDER_COLOR, rect, 1)
 
-        head_rect = pygame.Rect(Snake.get_head_position(self), (GRID_SIZE, GRID_SIZE))
+        head_rect = pygame.Rect(Snake.get_head_position(self),
+                                (GRID_SIZE, GRID_SIZE))
         pygame.draw.rect(screen, self.body_color, head_rect)
         pygame.draw.rect(screen, BORDER_COLOR, head_rect, 1)
 
@@ -254,8 +253,6 @@ def main():
         apple.draw()
         trash.draw()
         pygame.display.update()
-
-        
 
 
 if __name__ == '__main__':
