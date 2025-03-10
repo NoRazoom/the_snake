@@ -136,18 +136,10 @@ class Snake(GameObject):
     def move(self):
         """Метод движения."""
         head_x, head_y = self.get_head_position()
+        direction_x, direction_y = self.direction
 
-        cell = (head_x + self.direction[0] * 20,
-                head_y + self.direction[1] * 20)
-
-        if head_x > SCREEN_WIDTH - GRID_SIZE:
-            cell = (0, cell[1])
-        elif head_x < 0:
-            cell = (SCREEN_WIDTH - GRID_SIZE, cell[1])
-        elif head_y > SCREEN_HEIGHT - GRID_SIZE:
-            cell = (cell[0], 0)
-        elif head_y < 0:
-            cell = (cell[0], SCREEN_HEIGHT - GRID_SIZE)
+        cell = ((head_x + (direction_x * GRID_SIZE)) % SCREEN_WIDTH,
+                (head_y + (direction_y * GRID_SIZE)) % SCREEN_WIDTH)
 
         self.positions.insert(0, cell)
 
@@ -159,12 +151,11 @@ class Snake(GameObject):
     def draw(self):
         """Метод отрисовки змейки."""
         for position in self.positions:
-            position_x, position_y = position[0], position[1]
-            rect = pygame.Rect(position_x, position_y, GRID_SIZE, GRID_SIZE)
+            rect = pygame.Rect(position, (GRID_SIZE, GRID_SIZE))
             pygame.draw.rect(screen, self.body_color, rect)
             pygame.draw.rect(screen, BORDER_COLOR, rect, 1)
 
-        head_rect = pygame.Rect(Snake.get_head_position(self),
+        head_rect = pygame.Rect(self.get_head_position(),
                                 (GRID_SIZE, GRID_SIZE))
         pygame.draw.rect(screen, self.body_color, head_rect)
         pygame.draw.rect(screen, BORDER_COLOR, head_rect, 1)
